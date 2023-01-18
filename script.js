@@ -173,6 +173,6 @@ class Album {
     }
 }
 
-const album = new Album('section', 'https://jsonplaceholder.typicode.com/photos', 16);
+const album = new Album('section', 'https://jsonplaceholder.typicode.com/photos', 150);
 
 album.makeAlbum();
