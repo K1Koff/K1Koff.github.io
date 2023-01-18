@@ -9,11 +9,17 @@ class Album {
         this.buttonsDiv = document.getElementById('buttons');
         this.pictureCounter = document.getElementById('pictureCounter');
         this.screenLocker = document.getElementById('screenLocker');
+        this.photoCaption = document.getElementById('photoCaption')
         this.containerId = containerId;
         this.fetchingURL = fetchingURL;
         this.photosCount = photosCount;
         this.fetchedArray = [];
         this.numOfChosenPicture = null;
+    }
+
+    updateBannerCaption() {
+        const currentElement = this.fetchedArray[this.numOfChosenPicture];
+        this.photoCaption.innerHTML = `${currentElement.title[0].toUpperCase()}${currentElement.title.slice(0)}.`;
     }
 
     addScreenLock() {
@@ -22,6 +28,15 @@ class Album {
 
     hideScreenLock() {
         this.screenLocker.style.visibility = '';
+    }
+
+    setLockerClickEvent() {
+        this.screenLocker.addEventListener('click', () => {
+            this.pictureZoomed.innerHTML = '';
+            this.bannerUnvisible();
+            this.hideScreenLock();
+            this.banner.style.zIndex = '';
+        });
     }
 
     bannerUnvisible() {
@@ -40,15 +55,6 @@ class Album {
         this.pictureCounter.innerHTML = `picture ${this.numOfChosenPicture + 1}/${this.photosCount}`;
     }
 
-    lockerClickEvent() {
-        this.screenLocker.addEventListener('click', () => {
-            this.pictureZoomed.innerHTML = '';
-            this.bannerUnvisible();
-            this.hideScreenLock();
-            this.banner.style.zIndex = '';
-        });
-    }
-
     setCloseBannerEvent() {
         this.exitButton.addEventListener('click', () => {
             this.pictureZoomed.innerHTML = '';
@@ -64,6 +70,7 @@ class Album {
             this.numOfChosenPicture -= 1;
             const previousElement = this.fetchedArray[this.numOfChosenPicture];
             this.handleCounter();
+            this.updateBannerCaption()
             this.pictureZoomed.innerHTML = `
                 <img src="${
     previousElement.url
@@ -81,6 +88,7 @@ class Album {
             this.numOfChosenPicture += 1;
             const nextElement = this.fetchedArray[this.numOfChosenPicture];
             this.handleCounter();
+            this.updateBannerCaption()
             this.pictureZoomed.innerHTML = `
                 <img src="${
     nextElement.url
@@ -111,6 +119,7 @@ class Album {
                 this.bannerVisible();
                 this.banner.style.zIndex = '5';
                 this.addScreenLock();
+                this.updateBannerCaption()
             },
             true,
         );
@@ -143,7 +152,6 @@ class Album {
     appendElement(containerId, nodeType, elementIdName, content) {
         if (!document.getElementById(elementIdName)) {
             const element = document.createElement(nodeType);
-
             element.innerHTML = content;
             element.setAttribute('id', elementIdName);
             document.getElementById(containerId).append(element);
@@ -159,6 +167,16 @@ class Album {
                 `div${index}`,
                 this.createContent(element, 'thumbnailUrl', element.thumbnailUrl),
             );
+            this.appendElement(
+                `div${index}`,
+                'p',
+                `Caption${index}`,
+                `${element.title[0].toUpperCase()}${element.title.slice(1, 15)} ...`,
+            )
+const currentElement = document.getElementById(`div${index}`);
+currentElement.style.textAlign = 'center'
+currentElement.style.width = '150px';
+currentElement.style.cursor = 'pointer'
         });
     }
 
@@ -169,7 +187,7 @@ class Album {
         this.setNextPictureEvent();
         this.setPreviousPictureEvent();
         this.setCloseBannerEvent();
-        this.lockerClickEvent();
+        this.setLockerClickEvent();
     }
 }
 
