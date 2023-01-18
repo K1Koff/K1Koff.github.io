@@ -1,109 +1,105 @@
 * {
-    user-select:none;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    zoom: 104%;
-  }
-  
-  .album-header {
-    width: 100wv;
-    display: flex;
-    font-size: 2rem;
-    justify-content: center;
-    align-items: center;
-    height: 3em;
-    color: white;
-    background-color: rgb(36, 36, 201);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-  
-  .pictures {
-    padding-left: 0px;
-    padding-top: 10px;
-    min-height: fit-content;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    gap: 15px;
-    z-index: 0;
-  }
-  
-  .thumbnailUrl {
-    position: relative;
-  }
-  
-  .album-banner {
-    position: fixed;
-    top: calc(50% - 150px);
-    left: calc(50% - 150px);
-    width: 300px;
-    height: 300px;
-    z-index: -1;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content:space-between;
-  }
-  
-  .button {
-    display: flex;
-    justify-content: center;
-    height: fit-content;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-color: rgba(0, 0, 0, 0.4);
-    z-index: 7;
-    cursor: pointer;
-    width: 50px;
-  }
-  
-  .buttons {
-    width: 100%;
-    min-height: 30%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    border-radius: 4px;
-    position:absolute;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  zoom: 104%;
+}
 
-  }
-  
-  .picture-counter {
-    background-color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
-    height: fit-content;
-    width: 120px;
-    text-align: center;
-  }
-  
-  .screen-locker {
-  z-index : 3;
-  background-color : rgba(7, 0, 0, 0.4);
-  width : 100vw;
-  height : 100vh;
-  position : fixed;
-  top : 0px;
-  visibility: hidden;
+.album-header {
+  width: 100wv;
+  display: flex;
+  font-size: 2rem;
+  justify-content: center;
+  align-items: center;
+  height: 3em;
+  color: white;
+  background-color: rgb(36, 36, 201);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.pictures {
+  padding-left: 0px;
+  padding-top: 10px;
+  min-height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 15px;
+  z-index: 0;
+}
+
+.thumbnailUrl {
+  position: relative;
+}
+
+.album-banner {
+  position: fixed;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+  width: 300px;
+  height: 300px;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 0, 0, 0.4);
+  z-index: 7;
   cursor: pointer;
-  }
+  width: 50px;
+}
 
-  .photo-caption {
-    text-align: center;
-color: rgb(255, 255, 255);
-text-shadow:
-0 1px 2px #000, 
-0 -1px 3px #000;
-position: absolute;
-top: 110%;
-  }
+.buttons {
+  width: 100%;
+  min-height: 30%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  border-radius: 4px;
+  position: absolute;
+}
 
-  .user-controls {
-    width: 100%;
-    display: flex;
-    height: 30%;
-    flex-direction: column-reverse;
-    align-items:center ;
-    justify-content: center;
-  }
+.picture-counter {
+  background-color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  height: fit-content;
+  width: 120px;
+  text-align: center;
+}
+
+.screen-locker {
+  z-index: 3;
+  background-color: rgba(7, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  visibility: hidden;
+}
+
+.photo-caption {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  text-shadow: 0 1px 2px #000, 0 -1px 3px #000;
+  position: absolute;
+  top: 110%;
+}
+
+.user-controls {
+  width: 100%;
+  display: flex;
+  height: 30%;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+}
