@@ -9,12 +9,31 @@ class Album {
         this.buttonsDiv = document.getElementById('buttons');
         this.pictureCounter = document.getElementById('pictureCounter');
         this.screenLocker = document.getElementById('screenLocker');
-        this.photoCaption = document.getElementById('photoCaption')
+        this.photoCaption = document.getElementById('photoCaption');
         this.containerId = containerId;
         this.fetchingURL = fetchingURL;
         this.photosCount = photosCount;
         this.fetchedArray = [];
         this.numOfChosenPicture = null;
+        this.isWatchingScaledPic = false;
+    }
+
+    keyPressListener() {
+        document.addEventListener('keydown', (event) => {
+            if (!this.isWatchingScaledPic) { return; }
+            switch (event.code) {
+                case 'ArrowRight': if (this.isLastPicture()) { break; }
+                this.showNextPicture();
+                    break;
+                case 'ArrowLeft': if(this.isFirstPicture()) { break; } 
+                this.showPreviousPicture();
+                    break;
+                case 'Escape': this.closeBanner();
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     updateBannerCaption() {
@@ -55,49 +74,70 @@ class Album {
         this.pictureCounter.innerHTML = `picture ${this.numOfChosenPicture + 1}/${this.photosCount}`;
     }
 
+    closeBanner() {
+        this.pictureZoomed.innerHTML = '';
+        this.bannerUnvisible();
+        this.hideScreenLock();
+        this.banner.style.zIndex = '';
+    }
+
     setCloseBannerEvent() {
         this.exitButton.addEventListener('click', () => {
-            this.pictureZoomed.innerHTML = '';
-            this.bannerUnvisible();
-            this.hideScreenLock();
-            this.banner.style.zIndex = '';
+            this.closeBanner();
+            this.isWatchingScaledPic = false;
         });
+    }
+
+    isFirstPicture() {
+        return this.numOfChosenPicture === 0;
     }
 
     setPreviousPictureEvent() {
         this.previousButton.addEventListener('click', () => {
-            if (this.numOfChosenPicture === 0) return;
-            this.numOfChosenPicture -= 1;
-            const previousElement = this.fetchedArray[this.numOfChosenPicture];
-            this.handleCounter();
-            this.updateBannerCaption()
-            this.pictureZoomed.innerHTML = `
-                <img src="${
+            if (this.isFirstPicture()) return;
+            this.showPreviousPicture();
+        });
+    }
+
+    showPreviousPicture() {
+        this.numOfChosenPicture -= 1;
+        const previousElement = this.fetchedArray[this.numOfChosenPicture];
+        this.handleCounter();
+        this.updateBannerCaption();
+        this.pictureZoomed.innerHTML = `
+            <img src="${
     previousElement.url
 }" alt="${
     previousElement.id
 }" tittle="${
     previousElement.title
 }" class="album-banner">`;
-        });
+    }
+
+    isLastPicture() {
+        return this.numOfChosenPicture === this.photosCount - 1;
     }
 
     setNextPictureEvent() {
         this.nextButton.addEventListener('click', () => {
-            if (this.numOfChosenPicture === this.photosCount - 1) return;
-            this.numOfChosenPicture += 1;
-            const nextElement = this.fetchedArray[this.numOfChosenPicture];
-            this.handleCounter();
-            this.updateBannerCaption()
-            this.pictureZoomed.innerHTML = `
-                <img src="${
+            if (this.isLastPicture()) return;
+            this.showNextPicture();
+        });
+    }
+
+    showNextPicture() {
+        this.numOfChosenPicture += 1;
+        const nextElement = this.fetchedArray[this.numOfChosenPicture];
+        this.handleCounter();
+        this.updateBannerCaption();
+        this.pictureZoomed.innerHTML = `
+                    <img src="${
     nextElement.url
 }" alt="${
     nextElement.id
 }" tittle="${
     nextElement.title
 }" class="album-banner">`;
-        });
     }
 
     eventPictureOnClick(element, index) {
@@ -119,7 +159,8 @@ class Album {
                 this.bannerVisible();
                 this.banner.style.zIndex = '5';
                 this.addScreenLock();
-                this.updateBannerCaption()
+                this.updateBannerCaption();
+                this.isWatchingScaledPic = true;
             },
             true,
         );
@@ -172,11 +213,11 @@ class Album {
                 'p',
                 `Caption${index}`,
                 `${element.title[0].toUpperCase()}${element.title.slice(1, 15)} ...`,
-            )
-const currentElement = document.getElementById(`div${index}`);
-currentElement.style.textAlign = 'center'
-currentElement.style.width = '150px';
-currentElement.style.cursor = 'pointer'
+            );
+            const currentElement = document.getElementById(`div${index}`);
+            currentElement.style.textAlign = 'center';
+            currentElement.style.width = '150px';
+            currentElement.style.cursor = 'pointer';
         });
     }
 
@@ -188,6 +229,7 @@ currentElement.style.cursor = 'pointer'
         this.setPreviousPictureEvent();
         this.setCloseBannerEvent();
         this.setLockerClickEvent();
+        this.keyPressListener();
     }
 }
 
